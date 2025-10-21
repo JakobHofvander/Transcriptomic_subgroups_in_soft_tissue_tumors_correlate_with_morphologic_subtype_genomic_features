@@ -10,7 +10,6 @@ library(readxl)
 library(ggdendro)
 
 # setwd("~/Dropbox/Jakob+Figge/Transcriptomics/source_data_and_code/")
-#
 s = fread("tpm_matrix.tsv") %>% column_to_rownames("symbol")
 sl = log2(s + 0.01) # log transform TPM values
 
