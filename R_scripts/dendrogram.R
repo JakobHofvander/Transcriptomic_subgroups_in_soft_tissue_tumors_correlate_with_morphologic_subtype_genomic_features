@@ -8,16 +8,17 @@ library(Rtsne)
 library(ggrepel)
 library(readxl)
 library(ggdendro)
+library(pvclust)
 
-# setwd("~/Dropbox/Jakob+Figge/Transcriptomics/source_data_and_code/")
-s = fread("tpm_matrix.tsv") %>% column_to_rownames("symbol")
+# read in tpm matrix
+s = fread("source_data/tpm_matrix.tsv") %>% column_to_rownames("symbol")
 sl = log2(s + 0.01) # log transform TPM values
 
 #filter genes based on variance
 mV_25 = varFilter(as.matrix(sl), var.func=IQR, var.cutoff=0.75, filterByQuantile=TRUE) # select top 25 % most variable genes.
 
-############### this works - just rename the tumors ..
-meta = fread("meta_data.txt") %>% dplyr::mutate(lab_dig = paste(lab_no, diagnosis, sep = '_'))
+# add annotations
+meta = fread("source_data/meta_data.txt") %>% dplyr::mutate(lab_dig = paste(lab_no, Abbreviation, sep = '_'))
 
 mV_25_2 = as.data.frame(mV_25) %>% rownames_to_column() %>% 
   pivot_longer(!rowname) %>% 
@@ -26,13 +27,10 @@ mV_25_2 = as.data.frame(mV_25) %>% rownames_to_column() %>%
   pivot_wider(names_from = lab_dig, values_from = value) %>% 
   column_to_rownames("rowname")
 
-###### just do a hclust ?
-
-library(pvclust)
-
+# cluster data
 result <- pvclust(mV_25_2, method.dist='euclidean', method.hclust="complete", nboot=100) # takes the filtered mV matrix as input. TAKES like 1h
 
-####### 
+#extract positions
 dendro_data <- dendro_data(result$hclust, type = "rectangle")
 
 # Plot dendrogram using ggplot2
@@ -52,7 +50,7 @@ ggplot() +
 ggsave("dendrogram.pdf", width = 12, height = 41, bg = "white", dpi = 400)
 
 
-###### done
+#plot annotations
 meta = fread("meta_data.txt")
 p = dendro_data$labels %>% 
   dplyr::mutate(lab_no = strsplit(label, "_") %>% map_chr(., 1)) %>% 
