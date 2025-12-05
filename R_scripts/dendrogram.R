@@ -1,3 +1,11 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+  library(tidyr)
+  library(data.table)
+})
+
 library(ggrepel)
 library(data.table)
 library(tidyverse)
@@ -60,7 +68,7 @@ p = dendro_data$labels %>%
   mutate(across(c(label), ~str_replace_all(., " ", "_"))) %>% 
   ggplot(aes(x = x,
              y = 1,
-             color = diagnosis,
+             color = Abbreviation,
              shape = shape))+
   geom_point() + 
   scale_shape_manual(values = c(15,16,17,3,16)) +

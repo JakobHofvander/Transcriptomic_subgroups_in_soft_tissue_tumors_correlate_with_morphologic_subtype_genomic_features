@@ -1,3 +1,10 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+  library(data.table)
+})
+
 # read in Silhouette score
 sil_data = fread("source_data/Silhouette_per_diagnosis.tsv") %>% 
   group_by(Cluster) %>% 

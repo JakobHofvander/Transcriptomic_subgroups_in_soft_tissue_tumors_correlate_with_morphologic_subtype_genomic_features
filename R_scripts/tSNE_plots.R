@@ -1,3 +1,10 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+  library(data.table)
+})
+
 ### read in the tSNE co-ordinates
 tSNE_fit_25_p30 = fread("source_data/meta_data.txt")
 

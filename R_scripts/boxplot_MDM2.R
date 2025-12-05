@@ -4,19 +4,19 @@ library(readxl)
 library(ggpubr)
 
 # Load TPM matrix and convert to data frame
-df_pc <- read_tsv("tpm_matrix.tsv")
+df_pc <- read_tsv("source_data/tpm_matrix.tsv")
 
 # select samples and genes
 markers = c("MDM2")
 
 # load metadata
-ano <- read_tsv("meta_data2.txt") 
+ano <- read_tsv("meta_data.txt") 
 
 plot_df = df_pc %>% filter(symbol %in% markers) %>% 
   pivot_longer(!symbol) %>% 
   mutate(log2TPM = log2(value + 0.01)) %>% 
   inner_join(ano, by = c("name" = "lab_no")) %>% 
-  filter(diagnosis == "ALT" | diagnosis == "Hib" | diagnosis == "Lip" | diagnosis == "Lip spindle" | diagnosis == "Lipblast")
+  filter(Abbreviation == "ALT" | diagnosis == "Hibernoma" | diagnosis == "Lipoma" | diagnosis == "Lipoma spindle" | diagnosis == "Lipoblastoma")
 
 # MDM2 boxplot
 plot_df %>% 

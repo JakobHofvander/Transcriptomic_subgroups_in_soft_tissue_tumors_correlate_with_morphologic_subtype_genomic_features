@@ -1,3 +1,10 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(data.table)
+  library(Rtsne)
+})
+
 library(ggrepel)
 library(data.table)
 library(tidyverse)

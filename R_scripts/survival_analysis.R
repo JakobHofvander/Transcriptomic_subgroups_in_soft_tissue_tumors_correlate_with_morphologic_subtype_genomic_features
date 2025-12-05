@@ -1,3 +1,11 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+  library(data.table)
+  library(survival)
+})
+
 #### 
 library(survminer)
 library(survival)

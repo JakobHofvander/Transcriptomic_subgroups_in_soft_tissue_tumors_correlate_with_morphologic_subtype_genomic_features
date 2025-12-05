@@ -1,3 +1,12 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+  library(tidyr)
+  library(data.table)
+  library(ggpubr)
+})
+
 ## boxplot for marker genes in LMS samples
 # read in tpm matrix
 df_pc = fread("source_data/tpm_matrix.tsv")
@@ -5,9 +14,6 @@ df_pc = fread("source_data/tpm_matrix.tsv")
 ano = fread("source_data/meta_data.txt")
 # define marker genes
 markers = c("ACTG2", "SLMAP", "LMOD1", "CFL2", "MYLK", "ARL4C", "MYOCD")
-
-
-fread("source_data/meta_data5.txt") %>% clipr::write_clip()
 
 ## select LMS samples
 plot_df = df_pc %>% filter(symbol %in% markers) %>% 

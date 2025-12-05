@@ -1,3 +1,10 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+  library(data.table)
+})
+
 #create color vector for sequencing year
 setwd("/Users/jhofvand/Dropbox/Jakob+Figge/Transcriptomics/source_data_and_code/")
 

@@ -1,3 +1,11 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+  library(data.table)
+  library(ggpubr)
+})
+
 # read in sil score generated with python script
 sil_data = fread("source_data/Silhouette_per_diagnosis.tsv")
   
@@ -12,7 +20,7 @@ p = sil_data %>%
   mutate(number = n()) %>%
   filter(number > 2) %>%
   mutate(median = median(Silhouette_Score)) %>%
-  ggplot(aes(reorder(Abbreviation, median) , Silhouette_Score, fill = Driverb)) +
+  ggplot(aes(reorder(Abbreviation, median) , Silhouette_Score, fill = Driver)) +
   geom_boxplot() +
   theme_bw() +
   scale_fill_manual(values = c("#A7A9AC","#6DC4A6", "#CA3F00", "#0057FF")) +

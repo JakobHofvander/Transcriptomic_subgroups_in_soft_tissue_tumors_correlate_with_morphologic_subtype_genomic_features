@@ -1,3 +1,9 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(data.table)
+})
+
 ##
 install.packages("viridis")
 install.packages("caret")

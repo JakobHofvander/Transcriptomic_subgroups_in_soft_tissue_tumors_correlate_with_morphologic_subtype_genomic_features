@@ -1,3 +1,9 @@
+# Load required libraries for this script
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(dplyr)
+})
+
 # Please note that we can't host data obtained through EGAD00001006628, thus the following script descries how the analysis was performed starting from a TPM count matrix of protein coding genes.
 # filter based on variance
 mV_25 = varFilter(as.matrix(df_pc), var.func=IQR, var.cutoff=0.75, filterByQuantile=TRUE) # select top 15 % most variable genes. Try a few different
