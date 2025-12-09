@@ -113,18 +113,31 @@ ano_na = ano %>%
   filter(!grepl("NA", Met_10))
 
 
-## cox model for CINSARC
+## cox model for CINSARC vs Complexity
 model = coxph(Surv(MFS_months_10, Met_10) ~ CINSARC + Complexity, data =  ano_na)
 
-# cox model for subclusters
+# cox model for CINSARC vs subclusters
 SC_model = coxph(Surv(MFS_months_10, Met_10) ~ CINSARC + subcluster, data =  SC)
 
 ##### forest plots
 ggforest(model)
-ggsave("Figure_S7_A.pdf", dpi = 400, width = 6, height = 5)
+ggsave("Figure_S8_A.pdf", dpi = 400, width = 6, height = 5)
 
 ##### forest plots CINSARC
 ggforest(SC_model)
-ggsave("Figure_S7_B.pdf", dpi = 400, width = 6, height = 5) # 
+ggsave("Figure_S8_B.pdf", dpi = 400, width = 6, height = 5) # 
 
+### multivariate analysis for subclusters, CINSARC and tumor grade.
+grade = SC %>% 
+  mutate(Grade = str_replace(Grade, "2-3", "3")) %>% 
+  filter(Grade != 'Low') %>% 
+  filter(Grade != 'High') %>% 
+  filter(Grade != 'NA') %>% 
+  mutate(tumor_grade = if_else(Grade == "3", '3', 'below 3')) %>% 
+  mutate(tumor_grade = if_else(Grade == "NA", 'NA', tumor_grade))
+
+
+grade_model = coxph(Surv(MFS_months_10, Met_10) ~ CINSARC + subcluster + tumor_grade, data =  grade)
+
+ggforest(grade_model)
 
